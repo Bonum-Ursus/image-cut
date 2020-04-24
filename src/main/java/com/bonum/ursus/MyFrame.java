@@ -1,5 +1,7 @@
 package com.bonum.ursus;
 
+import org.w3c.dom.ls.LSOutput;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -7,8 +9,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileFilter;
+import java.util.Arrays;
 
 public class MyFrame extends JFrame {
+    private JPanel panel1;
+
     public static void main(String[] args) {
         new MyFrame();
     }
@@ -28,23 +34,29 @@ public class MyFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JTextField chosenDir = new JTextField(25);
         panel.add(chosenDir);
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                JFileChooser dialog = new JFileChooser();
-                dialog.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-                dialog.setApproveButtonText("OK");
-                dialog.setDialogTitle("Выбрать папку с изображениями");
-                dialog.setDialogType(JFileChooser.OPEN_DIALOG);
-                dialog.setMultiSelectionEnabled(false);
-                dialog.showOpenDialog(MyFrame.this);
+        button.addActionListener(actionEvent -> {
+            JFileChooser dialog = new JFileChooser();
+            dialog.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+            dialog.setApproveButtonText("OK");
+            dialog.setDialogTitle("Выбираем папку с изображениями");
+            dialog.setDialogType(JFileChooser.OPEN_DIALOG);
+            dialog.setMultiSelectionEnabled(false);
+            dialog.showOpenDialog(MyFrame.this);
 
-                File file = dialog.getSelectedFile();
-                chosenDir.setText(file.getAbsolutePath());
-                System.out.println(file.getAbsolutePath());
-                setVisible(true);
-                setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            File file = dialog.getSelectedFile();
+            chosenDir.setText(file.getAbsolutePath());
+            System.out.println(file.getAbsolutePath());
+            File[] files = file.listFiles(new FileFilter() {
+                @Override
+                public boolean accept(File file) {
+                    return true;
+                }
+            });
+            for (int i = 0; i < files.length; i++) {
+                System.out.println(files[i].getAbsolutePath());
             }
+            setVisible(true);
+            setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         });
     }
 }
