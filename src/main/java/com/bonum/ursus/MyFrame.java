@@ -19,9 +19,14 @@ public class MyFrame extends JFrame {
         new MyFrame();
     }
     public MyFrame(){
-        setTitle("Image converter");
-        setBounds(250,250,400,200);
-        JButton button = new JButton("Convert images");
+        int windowWidth = 500;
+        int windowHeight = 400;
+        setTitle("Bonum-Ursus");
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Dimension dimension = toolkit.getScreenSize();
+        setBounds(dimension.width/2 - windowWidth/2,dimension.height/2 - windowHeight/2,
+                windowWidth,windowHeight);
+        JButton button = new JButton("Обрезать изображения");
 
         JPanel panel = new JPanel(new GridBagLayout());
         panel.add(button);
